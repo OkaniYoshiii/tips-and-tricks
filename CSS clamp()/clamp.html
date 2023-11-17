@@ -1,0 +1,74 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="OkaniYoshiii">
+    <title>CSS clamp()</title>
+    <link rel="stylesheet" href="clamp.css">
+    <script src="clamp.js" defer></script>
+</head>
+<body>
+    <main class="narrow">
+        <h1>Fonction <code>clamp()</code> en CSS</h1>
+        <p>La fonction <code>clamp()</code> en CSS permet de spécifier une unité de longueur minimale et maximale ainsi qu'une unité "idéale" (généralement relative à la taille de l'écran ou d'un conteneur).</p>
+        <h2>Augmenter la vitesse de variation entre les deux unités</h2>
+        <h3>Exposition du problème :</h3>
+        <p>Une des choses qui est assez embêtante avec la fonction <code>clamp()</code> est lorsque vous essayez quelque chose du style :</p>
+        <pre>
+<code>
+section {
+    margin-block: clamp(1rem, 5vw, 10rem);
+}
+</code>
+        </pre>
+        <p>Généralement, faire ceci fait que votre fonction n'atteint jamais le minimum ou le maximum notamment parce que la valeur idéale ne fluctue pas assez pour faire ce que vous souhaitez.</p>
+        <h3>Solution :</h3>
+        <p>Afin d'augmenter la vitesse de variation de la fonction, il faut donc changer quelque chose concernant cette valeur idéale.Une des solutions que j'ai pu trouver et de rajouter ou soustraire une unité fixe (en <code>px</code> par exemple) et non relative (comme les <code>vw</code>) afin de changer cette variation.</p>
+        <p>Voici plusieurs exemple pour illustrer mon propos. Il vous suffit de redimensionner votre écran pour voir le résultat :</p>
+        <div class="outputs">
+            <ol>
+                <li>
+                    <p><code>clamp([valeur],1vw,[valeur])</code></p>
+                    <ul>
+                        <li>Largeur écran : 500px | <code>clamp()</code> retourne <b>5px</b></li>
+                        <li>Largeur écran : 1000px | <code>clamp()</code> retourne <b>10px</b></li>
+                        <li>Largeur écran : 2000px | <code>clamp()</code> retourne <b>20px</b></li>
+                    </ul>
+                    <p>Valeur actuelle : <b><span id="output1">x</span> px</b></p>
+                </li>
+                <li>
+                    <p><code>clamp([valeur],0.5vw + 5px,[valeur])</code></p>
+                    <ul>
+                        <li>Largeur écran : 500px | <code>clamp()</code> retourne <b>7.5px</b></li>
+                        <li>Largeur écran : 1000px | <code>clamp()</code> retourne <b>10px</b></li>
+                        <li>Largeur écran : 2000px | <code>clamp()</code> retourne <b>15px</b></li>
+                    </ul>
+                    <p>Valeur actuelle : <b><span id="output2">x</span> px</b></p>
+                </li>
+                <li>
+                    <p><code>clamp([valeur],1.5vw - 5px,[valeur])</code></p>
+                    <ul>
+                        <li>Largeur écran : 500px | <code>clamp()</code> retourne <b>2.5px</b></li>
+                        <li>Largeur écran : 1000px | <code>clamp()</code> retourne <b>10px</b></li>
+                        <li>Largeur écran : 2000px | <code>clamp()</code> retourne <b>25px</b></li>
+                    </ul>
+                    <p>Valeur actuelle : <b><span id="output3">x</span> px</b></p>
+            </ol>
+        </div>
+        <h3>Conclusion :</h3>
+        <p>Pour <b>augmenter la variation</b> de la valeur idéale, il faut la <b>soustraire à une valeur fixe</b>.</p>
+        <p>Exemple :</p>
+        <pre>
+<code>
+    clamp([valeur], 1vw - 5px, [valeur])
+</code>
+        </pre>
+        <p>Pour <b>diminuer la variation</b> de la valeur idéale, il faut l'<b>additioner à une valeur fixe</b>.</p>
+        <p>Exemple :</p>
+        <pre>
+<code>
+    clamp([valeur], 1vw + 5px, [valeur])
+</code>
+        </pre>
+    </main>
+</body>
